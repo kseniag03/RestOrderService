@@ -5,6 +5,9 @@
     <projectFile profileName="http">RestOrderService.csproj</projectFile>
     <projectFile profileName="https">RestOrderService.csproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="e3f7d269-9d5a-449a-a529-0ca1439f91c5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/config/applicationhost.config" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/config/applicationhost.config" afterDir="false" />
