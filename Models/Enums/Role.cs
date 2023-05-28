@@ -1,6 +1,6 @@
 using RestOrderService.Libraries;
 
-namespace RestOrderService.Models;
+namespace RestOrderService.Models.Enums;
 
 public enum Role
 {

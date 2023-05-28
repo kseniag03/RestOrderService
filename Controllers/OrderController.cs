@@ -30,23 +30,36 @@ public class OrderController: ControllerBase
     [HttpGet("get-order-by-id")]
     public async Task<ActionResult<Order>> GetOrderById(int id)
     {
-        var order = await _orderRepository.FindOrderById(id);
-        if (order == null)
+        try
         {
-            return NotFound("Order not found");
+            var order = await _orderRepository.FindOrderById(id);
+            if (order == null)
+            {
+                return NotFound("Order not found");
+            }
+            return Ok(order);
         }
-        return Ok(order);
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet("get-all-orders")]
     public async Task<ActionResult<List<Order>>> GetAllOrders()
     {
-        var list = await _orderRepository.FindAllOrders();
-        if (list.Count == 0)
+        try
         {
-            return NotFound("Orders list is empty");
+            var list = await _orderRepository.FindAllOrders();
+            if (list.Count == 0)
+            {
+                return NotFound("Orders list is empty");
+            }
+            return Ok(list);
         }
-        return Ok(list);
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
-
 }
