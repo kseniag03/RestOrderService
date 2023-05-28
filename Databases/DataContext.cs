@@ -4,7 +4,6 @@ namespace RestOrderService.Repositories;
 
 public class DataContext : DbContext
 {
-
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -14,4 +13,12 @@ public class DataContext : DbContext
     }
 
     public DbSet<User> Users => Set<User>();
+
+    public DbSet<Session> Sessions => Set<Session>();
+    
+    public DbSet<Dish> Dishes => Set<Dish>();
+    
+    public DbSet<Order> Orders => Set<Order>();
+
+    public DbSet<OrderDish> OrderDishes => Set<OrderDish>();
 }

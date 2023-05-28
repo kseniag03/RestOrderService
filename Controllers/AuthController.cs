@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using RestOrderService.Libraries;
 using RestOrderService.Models;
 using RestOrderService.Repositories;
 using RestOrderService.Services;
@@ -56,7 +57,7 @@ public class AuthController: ControllerBase
 
         var id = (await _userRepository.FindAllUsers()).Count;
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-        var user = new User(id, request.Nickname, request.Login, passwordHash, Role.CUSTOMER);
+        var user = new User(id, request.Nickname, request.Login, passwordHash, Role.Customer);
         
         await _userRepository.AddNewUser(user);
 
@@ -78,7 +79,7 @@ public class AuthController: ControllerBase
 
         var token = CreateToken(user);
         user.Token = token;
-        user.UpdatedAt = DateTime.Now.ToUniversalTime();
+        user.UpdatedAt = DateTime.UtcNow;
 
         await _userRepository.UpdateUser(user);
         

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestOrderService.Models;
 
+[Table("user")]
 public class User
 {
     [Key]
@@ -19,7 +20,7 @@ public class User
     public string PasswordHash { get; private set; } = string.Empty;
 
     [Column("role")]
-    public Role Role { get; private set; } = Role.CUSTOMER;
+    public Role Role { get; private set; } = Role.Customer;
     
     [Column("created_at")]
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
