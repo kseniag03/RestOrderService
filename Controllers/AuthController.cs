@@ -1,14 +1,12 @@
-using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RestOrderService.Libraries;
 using RestOrderService.Models;
 using RestOrderService.Repositories;
-using RestOrderService.Services;
 
 namespace RestOrderService.Controllers;
 
@@ -63,7 +61,7 @@ public class AuthController: ControllerBase
 
         return Ok(user);
     }
-    
+
     [HttpPost("login")]
     public async Task<ActionResult<string>> Login(UserRequest request)
     {
@@ -79,11 +77,21 @@ public class AuthController: ControllerBase
 
         var token = CreateToken(user);
         user.Token = token;
-        user.UpdatedAt = DateTime.UtcNow;
 
         await _userRepository.UpdateUser(user);
         
         return Ok(token);
+    }
+    
+    [HttpGet("get-user-by-token")]
+    public async Task<ActionResult<User>> GetUserByToken(string token)
+    {
+        var user = await _userRepository.FindUserByToken(token);
+        if (user == null)
+        {
+            return NotFound("User not found");
+        }
+        return Ok(user);
     }
     
     [HttpGet("get-all-users")]
@@ -96,23 +104,54 @@ public class AuthController: ControllerBase
         }
         return Ok(list);
     }
+    
+    [HttpPut("change-role")]
+    [Authorize(Roles = "Manager")]
+    public async Task<ActionResult<User>> ChangeRole(int id, string roleStr)
+    {
+        var user = await _userRepository.FindUserById(id);
+        if (user == null)
+        {
+            return NotFound("User not found");
+        }
+        if (user.Role == Role.Manager)
+        {
+            return BadRequest("You cannot change manager's role");
+        }
+        var role = Role.Customer;
+        switch (roleStr)
+        {
+            case "customer":
+                break;
+            case "chef":
+                role = Role.Chef;
+                break;
+            case "manager":
+                role = Role.Manager;
+                break;
+            default:
+                return BadRequest("Not supported role");
+        }
+        
+        user.Role = role;
+        await _userRepository.UpdateUser(user);
+
+        return Ok(user);
+    }
 
     private String CreateToken(User user)
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Nickname),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role.GetStringValue())
+            new(ClaimTypes.NameIdentifier, user.Nickname),
+            new(ClaimTypes.Email, user.Email),
+            new(ClaimTypes.Role, user.Role.GetStringValue())
         };
 
         var tokenValue = _configuration.GetSection("AppSettings:Token").Value;
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenValue ?? "ab1cd2ef3gh4ij5kl"));
-
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-        var token = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddDays(30), signingCredentials: creds);
-
+        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+        var token = new JwtSecurityToken(claims: claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: credentials);
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
         return jwt;

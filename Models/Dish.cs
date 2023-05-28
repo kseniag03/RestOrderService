@@ -20,7 +20,7 @@ public class Dish
     public decimal Price { get; private set; }
 
     [Column("quantity")]
-    public int Quantity { get; private set; }
+    public int Quantity { get; set; }
 
     public Dish() { }
 

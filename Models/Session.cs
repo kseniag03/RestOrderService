@@ -22,11 +22,11 @@ public class Session
 
     public Session() { }
 
-    public Session(int id, int userId, string sessionToken)
+    public Session(int id, int userId, string sessionToken, DateTime expiresAt)
     {
         Id = id;
         UserId = userId;
         SessionToken = sessionToken;
-        //ExpiresAt = from sessionToken...
+        ExpiresAt = expiresAt;
     }
 }

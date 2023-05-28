@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text.RegularExpressions;
 using RestOrderService.Models;
 using RestOrderService.Repositories;
@@ -73,6 +74,20 @@ public class UserService: IUserRepository
     public async Task UpdateUser(User user)
     {
         _database.Users.Update(user);
+        
+        var id = (await FindAllSessions()).Count;
+        var parsedToken = new JwtSecurityToken(user.Token);
+        var expirationDate = parsedToken.ValidTo;
+        var session = new Session(id, user.Id, user.Token, expirationDate);
+        _database.Sessions.Add(session);
+        
+        user.UpdatedAt = DateTime.UtcNow;
         await _database.SaveChangesAsync();
+    }
+    
+    private async Task<List<Session>> FindAllSessions()
+    {
+        var sessions = await _database.Sessions.ToListAsync();
+        return sessions;
     }
 }

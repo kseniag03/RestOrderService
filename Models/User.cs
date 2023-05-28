@@ -20,7 +20,7 @@ public class User
     public string PasswordHash { get; private set; } = string.Empty;
 
     [Column("role")]
-    public Role Role { get; private set; } = Role.Customer;
+    public Role Role { get; set; } = Role.Customer;
     
     [Column("created_at")]
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
