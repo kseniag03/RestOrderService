@@ -4,18 +4,17 @@ namespace RestOrderService.Repositories;
 
 public class DataContext : DbContext
 {
-    protected readonly IConfiguration Configuration;
 
-    public DataContext(IConfiguration configuration)
+    public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
-        Configuration = configuration;
+        
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // connect to postgres with connection string from app settings
-        options.UseNpgsql(Configuration.GetConnectionString("WebApiDatabase"));
+        base.OnConfiguring(optionsBuilder);
+        optionsBuilder.UseNpgsql("Host=localhost; Database=ros; Username=postgres; Password=_4a^h%7AF$v");
     }
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> Users => Set<User>();
 }

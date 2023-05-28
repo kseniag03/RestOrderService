@@ -1,6 +1,6 @@
 namespace RestOrderService.Models;
 
-public class UserDto
+public class UserRequest
 {
     public required int Id { get; set; }
     
