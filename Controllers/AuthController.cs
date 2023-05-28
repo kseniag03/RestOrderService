@@ -35,38 +35,65 @@ public class AuthController: ControllerBase
     }
 
     [HttpPost("register")]
-    public ActionResult<User> Register(UserRequest request)
+    public async Task<ActionResult<User>> Register(UserRequest request)
     {
-        String passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-        var user = new User(0, request.Nickname, request.Email, Role.CHEF);
+        if (await _userRepository.FindUserByNickname(request.Nickname) != null)
+        {
+            return BadRequest("Nickname is already present in database");
+        }
+        if (await _userRepository.FindUserByLogin(request.Login) != null)
+        {
+            return BadRequest("Email is already present in database");
+        }
+        if (!_userRepository.IsLoginValid(request.Login))
+        {
+            return BadRequest("Email is not valid");
+        }
+        if (!_userRepository.IsPasswordSafe(request.Password))
+        {
+            return BadRequest("Password is not safe");
+        }
+
+        var id = (await _userRepository.FindAllUsers()).Count;
+        var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+        var user = new User(id, request.Nickname, request.Login, passwordHash, Role.CUSTOMER);
+        
+        await _userRepository.AddNewUser(user);
 
         return Ok(user);
     }
     
     [HttpPost("login")]
-    public ActionResult<User> Login(UserRequest request)
+    public async Task<ActionResult<string>> Login(UserRequest request)
     {
-
-        if (_userRepository.FindUserByNickname(request.Nickname).Result != null)
+        var user = await _userRepository.FindUserByLogin(request.Login);
+        if (user == null)
         {
-            return BadRequest("Nickname is already present in database");
+            return NotFound("User not found");
         }
-
-        var user = _userRepository.FindUserById(request.Id).Result;
-
-        if (user == null) // if not present
-        {
-            return BadRequest("User not found");
-        }
-
         if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
         {
             return BadRequest("Wrong password");
         }
 
         var token = CreateToken(user);
+        user.Token = token;
+        user.UpdatedAt = DateTime.Now.ToUniversalTime();
+
+        await _userRepository.UpdateUser(user);
         
         return Ok(token);
+    }
+    
+    [HttpGet("get-all-users")]
+    public async Task<ActionResult<List<User>>> GetAllUsers()
+    {
+        var list = await _userRepository.FindAllUsers();
+        if (list.Count == 0)
+        {
+            return NotFound("Users list is empty");
+        }
+        return Ok(list);
     }
 
     private String CreateToken(User user)
@@ -77,9 +104,9 @@ public class AuthController: ControllerBase
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Role, user.Role.GetStringValue())
         };
-        
-        var tokenValue = _configuration.GetSection("AppSettings").GetValue<string>("Token");
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenValue!));
+
+        var tokenValue = _configuration.GetSection("AppSettings:Token").Value;
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenValue ?? "ab1cd2ef3gh4ij5kl"));
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

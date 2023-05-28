@@ -1,57 +1,43 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace RestOrderService.Models;
 
 public class User
 {
-    private int id;
-
-    private String nickname;
-
-    private String email;
-
-    private String password;
-
-    private Role role;
+    [Key]
+    [Column("id")]
+    public int Id { get; private set; }
     
-    public User()
-    {
-        
-    }
+    [Column("username")]
+    public string Nickname { get; private set; } = string.Empty;
+    
+    [Column("email")]
+    public string Email { get; private set; } = string.Empty;
 
-    public User(int id, String nickname, String email, Role role)
+    [Column("password_hash")]
+    public string PasswordHash { get; private set; } = string.Empty;
+
+    [Column("role")]
+    public Role Role { get; private set; } = Role.CUSTOMER;
+    
+    [Column("created_at")]
+    public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
+
+    [Column("updated_at")]
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    
+    [NotMapped]
+    public string Token { get; set; } = string.Empty;
+
+    public User() {}
+
+    public User(int id, string nickname, string email, string passwordHash, Role role)
     {
-        this.id = id;
-        this.nickname = nickname;
-        this.email = email;
-        this.role = role;
-        
         Id = id;
         Nickname = nickname;
         Email = email;
+        PasswordHash = passwordHash;
         Role = role;
-    }
-    
-    public int Id { get; private set; }
-    public string Nickname { get; private set; } = string.Empty;
-    public string Email { get; private set; } = string.Empty;
-    public Role Role { get; private set; }
-    
-    public string PasswordHash { get; set; }
-
-    public string Token { get; set; } = string.Empty;
-
-    public string Password
-    {
-        private get { return password; }
-        set
-        {
-            // Implement your password validation logic here
-            // For example, check minimum length, complexity, etc.
-            if (string.IsNullOrEmpty(value))
-            {
-                throw new ArgumentException("Password cannot be empty");
-            }
-
-            password = value;
-        }
     }
 }
