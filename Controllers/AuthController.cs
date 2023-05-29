@@ -39,9 +39,8 @@ public class AuthController: ControllerBase
     {
         try
         {
-            var id = (await _userRepository.FindAllUsers()).Count;
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            var user = new User(id, request.Nickname, request.Login, passwordHash, Role.Manager);
+            var user = new User(request.Nickname, request.Login, passwordHash, Role.Manager);
             await _userRepository.AddNewUser(user);
             return Ok(user);
         }
@@ -56,9 +55,8 @@ public class AuthController: ControllerBase
     {
         try
         {
-            var id = (await _userRepository.FindAllUsers()).Count;
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            var user = new User(id, request.Nickname, request.Login, passwordHash, Role.Chef);
+            var user = new User(request.Nickname, request.Login, passwordHash, Role.Chef);
             await _userRepository.AddNewUser(user);
             return Ok(user);
         }
@@ -89,10 +87,9 @@ public class AuthController: ControllerBase
             {
                 return BadRequest("Password is not safe");
             }
-
-            var id = (await _userRepository.FindAllUsers()).Count;
+            
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            var user = new User(id, request.Nickname, request.Login, passwordHash, Role.Customer);
+            var user = new User(request.Nickname, request.Login, passwordHash, Role.Customer);
         
             await _userRepository.AddNewUser(user);
 

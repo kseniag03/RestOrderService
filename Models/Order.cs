@@ -9,7 +9,7 @@ public class Order
 {
     [Key]
     [Column("id")]
-    public int Id { get; private set; }
+    public int Id { get; set; }
 
     [Column("user_id")]
     public int UserId { get; private set; }
@@ -28,9 +28,8 @@ public class Order
 
     public Order() { }
 
-    public Order(int id, int userId, string specialRequests)
+    public Order(int userId, string specialRequests)
     {
-        Id = id;
         UserId = userId;
         SpecialRequests = specialRequests;
     }

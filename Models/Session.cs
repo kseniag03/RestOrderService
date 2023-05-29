@@ -8,7 +8,7 @@ public class Session
 {
     [Key]
     [Column("id")]
-    public int Id { get; private set; }
+    public int Id { get; set; }
 
     [Column("user_id")]
     [ForeignKey("User")]
@@ -22,9 +22,8 @@ public class Session
 
     public Session() { }
 
-    public Session(int id, int userId, string sessionToken, DateTime expiresAt)
+    public Session(int userId, string sessionToken, DateTime expiresAt)
     {
-        Id = id;
         UserId = userId;
         SessionToken = sessionToken;
         ExpiresAt = expiresAt;

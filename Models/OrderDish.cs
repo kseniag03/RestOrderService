@@ -8,7 +8,7 @@ public class OrderDish
 {
     [Key]
     [Column("id")]
-    public int Id { get; private set; }
+    public int Id { get; set; }
 
     [Column("order_id")]
     [ForeignKey("Order")]
@@ -26,9 +26,8 @@ public class OrderDish
 
     public OrderDish() { }
 
-    public OrderDish(int id, int orderId, int dishId, int quantity, decimal price)
+    public OrderDish(int orderId, int dishId, int quantity, decimal price)
     {
-        Id = id;
         OrderId = orderId;
         DishId = dishId;
         Quantity = quantity;

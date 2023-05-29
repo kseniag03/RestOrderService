@@ -9,7 +9,7 @@ public class User
 {
     [Key]
     [Column("id")]
-    public int Id { get; private set; }
+    public int Id { get; set; }
     
     [Column("username")]
     public string Nickname { get; private set; } = string.Empty;
@@ -34,9 +34,8 @@ public class User
 
     public User() {}
 
-    public User(int id, string nickname, string email, string passwordHash, Role role)
+    public User(string nickname, string email, string passwordHash, Role role)
     {
-        Id = id;
         Nickname = nickname;
         Email = email;
         PasswordHash = passwordHash;

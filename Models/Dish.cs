@@ -8,7 +8,7 @@ public class Dish
 {
     [Key]
     [Column("id")]
-    public int Id { get; private set; }
+    public int Id { get; set; }
 
     [Column("name")]
     public string Name { get; private set; } = string.Empty;

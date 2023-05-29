@@ -78,7 +78,7 @@ public class UserService: IUserRepository
         var id = (await FindAllSessions()).Count;
         var parsedToken = new JwtSecurityToken(user.Token);
         var expirationDate = parsedToken.ValidTo;
-        var session = new Session(id, user.Id, user.Token, expirationDate);
+        var session = new Session(user.Id, user.Token, expirationDate);
         _database.Sessions.Add(session);
         
         user.UpdatedAt = DateTime.UtcNow;
