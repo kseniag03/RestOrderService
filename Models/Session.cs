@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestOrderService.Models;
 
+/// <summary>
+/// Model of session object.
+/// </summary>
 [Table("session")]
 public class Session
 {

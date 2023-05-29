@@ -1,24 +1,25 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestOrderService.Models;
+using RestOrderService.Models.Requests;
 using RestOrderService.Repositories;
 
 namespace RestOrderService.Controllers;
 
+/// <summary>
+/// Class-controller for processing manager's queries.
+/// </summary>
 [ApiController]
 [Route("[controller]")]
 public class DishController: ControllerBase
 {
-    private readonly IConfiguration _configuration;
-
     /// <summary>
-    /// Хранилище данных о блюдах.
+    /// Storage of dishes data.
     /// </summary>
     private readonly IDishRepository _dishRepository;
     
-    public DishController(IConfiguration configuration, IDishRepository dishRepository)
+    public DishController(IDishRepository dishRepository)
     {
-        _configuration = configuration;
         _dishRepository = dishRepository;
     }
 
@@ -42,7 +43,7 @@ public class DishController: ControllerBase
     }
 
     [HttpGet("get-all-dishes")]
-    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "Customer,Chef,Manager")]
     public async Task<ActionResult<List<Dish>>> GetAllDishes()
     {
         try
@@ -62,25 +63,26 @@ public class DishController: ControllerBase
 
     [HttpPost("add-dish")]
     [Authorize(Roles = "Manager")]
-    public async Task<ActionResult<string>> CreateDish(Dish dish)
+    public async Task<ActionResult<string>> CreateDish(DishRequest dish)
     {
         try
         {
-            if (dish.Id < 0 || dish.Quantity < 0 || dish.Price < 0)
+            if (dish.Quantity < 0 || dish.Price < 0)
             {
                 return BadRequest("Invalid dish parameters");
             }
-            var sameDish = await _dishRepository.FindDishById(dish.Id);
+            var sameDish = await _dishRepository.FindDishByName(dish.Name);
             if (sameDish != null)
             {
-                if (sameDish.Name != dish.Name || sameDish.Description != dish.Description || sameDish.Price != dish.Price)
+                if (sameDish.Description != dish.Description || sameDish.Price != dish.Price)
                 {
-                    return BadRequest("You are trying to add dish with different parameters but the same id that already exists in database");
+                    return BadRequest("You are trying to add dish with different parameters but the same name that already exists in database");
                 }
-                return await UpdateDish(dish.Id, dish.Quantity + sameDish.Quantity);
+                return await UpdateDish(sameDish.Id, dish.Quantity + sameDish.Quantity);
             }
-            await _dishRepository.AddNewDish(dish);
-            return Ok($"Dish with id = {dish.Id} has been added to list");
+            var newDish = new Dish(dish.Name, dish.Description, dish.Price, dish.Quantity);
+            await _dishRepository.AddNewDish(newDish);
+            return Ok($"Dish with name = {dish.Name} has been added to list");
         }
         catch (Exception ex)
         {
@@ -149,5 +151,4 @@ public class DishController: ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
 }

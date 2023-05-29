@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestOrderService.Models;
 
+/// <summary>
+/// Model of dish object.
+/// </summary>
 [Table("dish")]
 public class Dish
 {

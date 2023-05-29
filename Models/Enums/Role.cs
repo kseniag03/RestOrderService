@@ -1,13 +1,11 @@
-using RestOrderService.Libraries;
-
 namespace RestOrderService.Models.Enums;
 
+/// <summary>
+/// Enum for user's role representation
+/// </summary>
 public enum Role
 {
-    [StringValue("customer")]
     Customer,
-    [StringValue("chef")]
     Chef,
-    [StringValue("manager")]
     Manager
 }

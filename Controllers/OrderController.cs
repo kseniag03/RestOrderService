@@ -1,29 +1,30 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestOrderService.Models;
+using RestOrderService.Models.Requests;
 using RestOrderService.Repositories;
 
 namespace RestOrderService.Controllers;
 
+/// <summary>
+/// Class-controller for processing authorised user's queries about orders.
+/// </summary>
 [ApiController]
 [Route("[controller]")]
 public class OrderController: ControllerBase
 {
-    private readonly IConfiguration _configuration;
-
     /// <summary>
-    /// Хранилище данных о заказах.
+    /// Storage of orders data.
     /// </summary>
     private readonly IOrderRepository _orderRepository;
     
-    public OrderController(IConfiguration configuration, IOrderRepository orderRepository)
+    public OrderController(IOrderRepository orderRepository)
     {
-        _configuration = configuration;
         _orderRepository = orderRepository;
     }
 
     [HttpGet("get-order-by-id")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Customer,Chef,Manager")]
     public async Task<ActionResult<Order>> GetOrderById(int id)
     {
         try
@@ -42,7 +43,7 @@ public class OrderController: ControllerBase
     }
 
     [HttpGet("get-all-orders")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Customer,Chef,Manager")]
     public async Task<ActionResult<List<Order>>> GetAllOrders()
     {
         try
@@ -61,23 +62,27 @@ public class OrderController: ControllerBase
     }
     
     [HttpPost("create-new-order")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Customer,Chef,Manager")]
     public async Task<ActionResult<Order>> CreateOrder(int userId, DishesRequest dishRequests, string specialRequest)
     {
         try
         {
-            foreach (var request in dishRequests.dishesList)
+            var dishesList = new List<OrderDish>();
+            foreach (var request in dishRequests.DishesIdList)
             {
-                var dish = await _orderRepository.FindDishById(request.DishId);
+                var dish = await _orderRepository.FindDishById(request);
                 if (dish == null)
                 {
-                    return NotFound($"No such dish id = {request.DishId} in dish list");
+                    return NotFound($"No such dish id = {request} in dish list");
                 }
+
+                var orderDish = new OrderDish(dish.Id, dish.Quantity, dish.Price);
+                dishesList.Add(orderDish);
             }
             
             var order = new Order(userId, specialRequest);
 
-            await _orderRepository.AddNewOrder(order, dishRequests.dishesList);
+            await _orderRepository.AddNewOrder(order, dishesList);
 
             return CreatedAtAction(nameof(GetOrderById), new { id = order.Id }, order);
         }
@@ -86,48 +91,4 @@ public class OrderController: ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
-    /*
-    [HttpGet("get-user-by-cur-token")]
-    public async Task<ActionResult<User>> GetUserByCurrentToken()
-    {
-        try
-        {
-            var user = await GetUserFromTokenByEmail();
-        
-            return Ok(user);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    private async Task<ActionResult<User>> GetUserFromTokenByEmail()
-    {
-        var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-        if (string.IsNullOrEmpty(token))
-        {
-            return BadRequest("Token not found in the request header");
-        }
-
-        var handler = new JwtSecurityTokenHandler();
-        var decodedToken = handler.ReadJwtToken(token);
-        
-        // Extract user information from claims
-        var userEmail = decodedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-        if (string.IsNullOrEmpty(userEmail))
-        {
-            return NotFound("Could not get email from token");
-        }
-
-        var user = await _orderRepository.FindUserByLogin(userEmail);
-        if (user == null)
-        {
-            return NotFound("Could not get user by email");
-        }
-
-        return user;
-    }
-    */
 }

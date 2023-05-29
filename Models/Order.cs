@@ -4,6 +4,9 @@ using RestOrderService.Models.Enums;
 
 namespace RestOrderService.Models;
 
+/// <summary>
+/// Model of order object.
+/// </summary>
 [Table("order")]
 public class Order
 {

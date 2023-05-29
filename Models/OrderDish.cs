@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestOrderService.Models;
 
+/// <summary>
+/// Model of object connecting order with dishes.
+/// </summary>
 [Table("order_dish")]
 public class OrderDish
 {
@@ -16,7 +19,7 @@ public class OrderDish
 
     [Column("dish_id")]
     [ForeignKey("Dish")]
-    public int DishId { get; private set; }
+    public int DishId { get; set; }
 
     [Column("quantity")]
     public int Quantity { get; private set; }
@@ -26,9 +29,8 @@ public class OrderDish
 
     public OrderDish() { }
 
-    public OrderDish(int orderId, int dishId, int quantity, decimal price)
+    public OrderDish(int dishId, int quantity, decimal price)
     {
-        OrderId = orderId;
         DishId = dishId;
         Quantity = quantity;
         Price = price;

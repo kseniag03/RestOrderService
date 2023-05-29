@@ -1,11 +1,18 @@
+using RestOrderService.Databases;
 using RestOrderService.Models;
 using RestOrderService.Models.Enums;
 using RestOrderService.Repositories;
 
 namespace RestOrderService.Services;
 
+/// <summary>
+/// Class for orders management, implements IOrderRepository interface.
+/// </summary>
 public class OrderService: IOrderRepository
 {
+    /// <summary>
+    /// Database with tables (used order, dish, order_dish).
+    /// </summary>
     private readonly DataContext _database;
 
     public OrderService(DataContext database)
@@ -38,19 +45,18 @@ public class OrderService: IOrderRepository
             await _database.SaveChangesAsync();
         }
 
-        order = await ProcessOrder(order);
+        try
+        {
+            order = await ProcessOrder(order);
+        }
+        catch (Exception)
+        {
+            order.Status = OrderStatus.Canceled;
+        }
         order.UpdatedAt = DateTime.UtcNow;
         
         _database.Orders.Update(order);
         await _database.SaveChangesAsync();
-    }
-    
-    private async Task<Order> ProcessOrder(Order order)
-    {
-        order.Status = OrderStatus.InProgress;
-        await Task.Delay(15000);
-        order.Status = OrderStatus.Completed;
-        return order;
     }
     
     public async Task<Dish?> FindDishById(int id)
@@ -59,4 +65,16 @@ public class OrderService: IOrderRepository
         return dish;
     }
 
+    /// <summary>
+    /// Imitates order processing, changes order status.
+    /// </summary>
+    /// <param name="order"> Current order </param>
+    /// <returns> Changed order </returns>
+    private async Task<Order> ProcessOrder(Order order)
+    {
+        order.Status = OrderStatus.InProgress;
+        await Task.Delay(15000);
+        order.Status = OrderStatus.Completed;
+        return order;
+    }
 }

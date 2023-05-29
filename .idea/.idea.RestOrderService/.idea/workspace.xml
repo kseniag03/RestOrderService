@@ -9,16 +9,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3f7d269-9d5a-449a-a529-0ca1439f91c5" name="Changes" comment="add-some-auth-roles-fix">
-      <change afterPath="$PROJECT_DIR$/Models/DishesRequest.cs" afterDir="false" />
+    <list default="true" id="e3f7d269-9d5a-449a-a529-0ca1439f91c5" name="Changes" comment="add-order-logic">
+      <change afterPath="$PROJECT_DIR$/Models/Requests/DishRequest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/Requests/DishesRequest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/Requests/UserRequest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RestOrderService/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RestOrderService/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AuthController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controllers/DishController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/DishController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controllers/OrderController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/OrderController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Databases/DataContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Databases/DataContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Libraries/EnumExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Libraries/StringValueAttribute.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Migrations/20230528181410_Initial.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Migrations/20230528181410_Initial.Designer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Migrations/DataContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Migrations/DataContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Dish.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Dish.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/DishesRequest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Enums/OrderStatus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Enums/OrderStatus.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Enums/Role.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Enums/Role.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Order.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Order.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Models/OrderDish.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/OrderDish.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Session.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Session.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/UserRequest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Repositories/IDishRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Repositories/IDishRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Repositories/IOrderRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Repositories/IOrderRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Repositories/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Repositories/IUserRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/DishService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/DishService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/OrderService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/OrderService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/UserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,33 +49,37 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="mock://D:/Contest_check/SD/ihw_4/ROS-API/RestOrderService/Controllers/AuthController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/Contest_check/SD/ihw_4/ROS-API/RestOrderService/Controllers/AuthController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Contest_check/SD/ihw_4/ROS-API/RestOrderService/Controllers/AuthController.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectId" id="2QRRgFJed9TTeZk01ZSOttm9lh7" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\Ksenia2018\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache",
-      "C:\\Users\\Ksenia2018\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache",
-      "C:\\Users\\Ksenia2018\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\Ksenia2018\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\Ksenia2018\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\Ksenia2018\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.RestOrderService: IIS Express">
     <configuration name="RestOrderService: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/RestOrderService.csproj" />
@@ -110,7 +135,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1685314517293</updated>
-      <workItem from="1685314518634" duration="10440000" />
+      <workItem from="1685314518634" duration="10927000" />
+      <workItem from="1685380112109" duration="11535000" />
     </task>
     <task id="LOCAL-00001" summary="add-dish-management-logic">
       <created>1685315158472</created>
@@ -133,7 +159,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685318644288</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add-order-logic">
+      <created>1685325306867</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1685325306867</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,6 +188,7 @@
     <MESSAGE value="add-dish-management-logic" />
     <MESSAGE value="add-try-catch-and-auth-roles" />
     <MESSAGE value="add-some-auth-roles-fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="add-some-auth-roles-fix" />
+    <MESSAGE value="add-order-logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="add-order-logic" />
   </component>
 </project>

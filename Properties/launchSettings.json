@@ -1,16 +1,4 @@
 ﻿{
-  "AppSettings": {
-  "Token": "secreT tOKeN bLA-BlA-bLa"
-  },
-  "ConnectionStrings": {
-    "WebApiDatabase": "Host=localhost; Database=ros; Username=postgres; Password=_4a^h%7AF$v"
-  },
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  },
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,

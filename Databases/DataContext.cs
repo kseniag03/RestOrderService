@@ -1,7 +1,10 @@
 using RestOrderService.Models;
 
-namespace RestOrderService.Repositories;
+namespace RestOrderService.Databases;
 
+/// <summary>
+/// Representation of PostgresSQL database.
+/// </summary>
 public class DataContext : DbContext
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }

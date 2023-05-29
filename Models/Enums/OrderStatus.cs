@@ -1,18 +1,12 @@
-using RestOrderService.Libraries;
-
 namespace RestOrderService.Models.Enums;
 
+/// <summary>
+/// Enum for order's status representation
+/// </summary>
 public enum OrderStatus
 {
-    [StringValue("pending")]
     Pending,
-    
-    [StringValue("inprogress")]
     InProgress,
-    
-    [StringValue("completed")]
     Completed,
-    
-    [StringValue("canceled")]
     Canceled
 }

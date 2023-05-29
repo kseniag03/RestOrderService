@@ -1,12 +1,19 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text.RegularExpressions;
+using RestOrderService.Databases;
 using RestOrderService.Models;
 using RestOrderService.Repositories;
 
 namespace RestOrderService.Services;
 
+/// <summary>
+/// Class for users management, implements IUserRepository interface.
+/// </summary>
 public class UserService: IUserRepository
 {
+    /// <summary>
+    /// Database with tables (used user, session).
+    /// </summary>
     private readonly DataContext _database;
 
     public UserService(DataContext database)
@@ -40,7 +47,12 @@ public class UserService: IUserRepository
 
     public async Task<User?> FindUserByToken(string token)
     {
-        var user = await _database.Users.FirstOrDefaultAsync(u => u.Token == token);
+        var userSession = await _database.Sessions.FirstOrDefaultAsync(s => s.SessionToken == token);
+        if (userSession == null)
+        {
+            return null;
+        }
+        var user = await _database.Users.FindAsync(userSession.UserId);
         return user;
     }
 
@@ -49,7 +61,7 @@ public class UserService: IUserRepository
         const string emailPattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
         return Regex.IsMatch(login, emailPattern);
     }
-
+    
     public bool IsPasswordSafe(string password)
     {
         if (password.Length < 5)
@@ -64,7 +76,7 @@ public class UserService: IUserRepository
         };
         return patterns.All(pattern => Regex.IsMatch(password, pattern));
     }
-
+    
     public async Task AddNewUser(User user)
     {
         await _database.Users.AddAsync(user);
@@ -74,20 +86,16 @@ public class UserService: IUserRepository
     public async Task UpdateUser(User user)
     {
         _database.Users.Update(user);
-        
-        var id = (await FindAllSessions()).Count;
-        var parsedToken = new JwtSecurityToken(user.Token);
-        var expirationDate = parsedToken.ValidTo;
-        var session = new Session(user.Id, user.Token, expirationDate);
-        _database.Sessions.Add(session);
-        
+
+        if (user.Token.Length > 0)
+        {
+            var parsedToken = new JwtSecurityToken(user.Token);
+            var expirationDate = parsedToken.ValidTo;
+            var session = new Session(user.Id, user.Token, expirationDate);
+            _database.Sessions.Add(session);
+        }
+
         user.UpdatedAt = DateTime.UtcNow;
         await _database.SaveChangesAsync();
-    }
-    
-    private async Task<List<Session>> FindAllSessions()
-    {
-        var sessions = await _database.Sessions.ToListAsync();
-        return sessions;
     }
 }

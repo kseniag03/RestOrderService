@@ -4,21 +4,27 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using RestOrderService.Libraries;
 using RestOrderService.Models;
 using RestOrderService.Models.Enums;
+using RestOrderService.Models.Requests;
 using RestOrderService.Repositories;
 
 namespace RestOrderService.Controllers;
 
+/// <summary>
+/// Class-controller for processing user's queries.
+/// </summary>
 [ApiController]
 [Route("[controller]")]
 public class AuthController: ControllerBase
 {
+    /// <summary>
+    /// App settings (for getting key for token generation).
+    /// </summary>
     private readonly IConfiguration _configuration;
 
     /// <summary>
-    /// Хранилище данных о пользователях.
+    /// Storage of users data.
     /// </summary>
     private readonly IUserRepository _userRepository;
     
@@ -159,7 +165,7 @@ public class AuthController: ControllerBase
         }
     }
     
-    [HttpPut("change-role")]
+    [HttpPut("change-user-role")]
     [Authorize(Roles = "Manager")]
     public async Task<ActionResult<User>> ChangeRole(int id, string roleStr)
     {
@@ -200,22 +206,25 @@ public class AuthController: ControllerBase
         }
     }
 
-    private String CreateToken(User user)
+    /// <summary>
+    /// Creates unique token for current user's session.
+    /// </summary>
+    /// <param name="user"> Current user </param>
+    /// <returns> String representation of token </returns>
+    private string CreateToken(User user)
     {
         var claims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier, user.Nickname),
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(ClaimTypes.Name, user.Nickname),
             new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.Role, "User"),
             new(ClaimTypes.Role, user.Role.ToString())
         };
-
-        var tokenValue = _configuration.GetSection("AppSettings:Token").Value;
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenValue ?? "ab1cd2ef3gh4ij5kl"));
+        var tokenValue = _configuration["AppSettings:Token"];
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenValue!));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
         var token = new JwtSecurityToken(claims: claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: credentials);
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
         return jwt;
     }
 }
