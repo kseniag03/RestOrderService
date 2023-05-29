@@ -8,5 +8,7 @@ public interface IOrderRepository
 
     public Task<List<Order>> FindAllOrders();
 
-    public Task AddNewOrder(Order order);
+    public Task AddNewOrder(Order order, List<OrderDish> dishes);
+    
+    public Task<Dish?> FindDishById(int id);
 }

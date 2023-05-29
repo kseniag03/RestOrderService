@@ -12,7 +12,7 @@ public class OrderDish
 
     [Column("order_id")]
     [ForeignKey("Order")]
-    public int OrderId { get; private set; }
+    public int OrderId { get; set; }
 
     [Column("dish_id")]
     [ForeignKey("Dish")]

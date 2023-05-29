@@ -9,14 +9,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3f7d269-9d5a-449a-a529-0ca1439f91c5" name="Changes" comment="add-try-catch-and-auth-roles">
+    <list default="true" id="e3f7d269-9d5a-449a-a529-0ca1439f91c5" name="Changes" comment="add-some-auth-roles-fix">
+      <change afterPath="$PROJECT_DIR$/Models/DishesRequest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RestOrderService/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RestOrderService/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AuthController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Dish.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Dish.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Order.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Order.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/DishController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/DishController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/OrderController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/OrderController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Models/OrderDish.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/OrderDish.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Session.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Session.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Repositories/IOrderRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Repositories/IOrderRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/DishService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/DishService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/OrderService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/OrderService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/UserService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,6 +26,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock://D:/Contest_check/SD/ihw_4/ROS-API/RestOrderService/Controllers/AuthController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/Contest_check/SD/ihw_4/ROS-API/RestOrderService/Controllers/AuthController.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -108,7 +110,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1685314517293</updated>
-      <workItem from="1685314518634" duration="4042000" />
+      <workItem from="1685314518634" duration="10440000" />
     </task>
     <task id="LOCAL-00001" summary="add-dish-management-logic">
       <created>1685315158472</created>
@@ -124,7 +126,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685317698841</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add-some-auth-roles-fix">
+      <created>1685318644288</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1685318644288</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,6 +154,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add-dish-management-logic" />
     <MESSAGE value="add-try-catch-and-auth-roles" />
-    <option name="LAST_COMMIT_MESSAGE" value="add-try-catch-and-auth-roles" />
+    <MESSAGE value="add-some-auth-roles-fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="add-some-auth-roles-fix" />
   </component>
 </project>

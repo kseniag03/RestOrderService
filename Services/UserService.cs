@@ -67,7 +67,7 @@ public class UserService: IUserRepository
 
     public async Task AddNewUser(User user)
     {
-        _database.Users.Add(user);
+        await _database.Users.AddAsync(user);
         await _database.SaveChangesAsync();
     }
     

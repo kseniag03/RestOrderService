@@ -16,22 +16,16 @@ namespace RestOrderService.Controllers;
 public class AuthController: ControllerBase
 {
     private readonly IConfiguration _configuration;
-    
-    /// <summary>
-    /// Регистратор сообщений и ошибок.
-    /// </summary>
-    private readonly ILogger<AuthController> _logger;
 
     /// <summary>
     /// Хранилище данных о пользователях.
     /// </summary>
     private readonly IUserRepository _userRepository;
     
-    public AuthController(IConfiguration configuration, IUserRepository userRepository, [FromServices]ILogger<AuthController> logger)
+    public AuthController(IConfiguration configuration, IUserRepository userRepository)
     {
         _configuration = configuration;
         _userRepository = userRepository;
-        _logger = logger;
     }
     
     [HttpPost("add-manager-for-testing")]

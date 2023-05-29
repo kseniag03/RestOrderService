@@ -10,25 +10,19 @@ namespace RestOrderService.Controllers;
 public class DishController: ControllerBase
 {
     private readonly IConfiguration _configuration;
-    
-    /// <summary>
-    /// Регистратор сообщений и ошибок.
-    /// </summary>
-    private readonly ILogger<DishController> _logger;
 
     /// <summary>
     /// Хранилище данных о блюдах.
     /// </summary>
     private readonly IDishRepository _dishRepository;
     
-    public DishController(IConfiguration configuration, IDishRepository dishRepository, [FromServices]ILogger<DishController> logger)
+    public DishController(IConfiguration configuration, IDishRepository dishRepository)
     {
         _configuration = configuration;
         _dishRepository = dishRepository;
-        _logger = logger;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("get-dish-by-id")]
     [Authorize(Roles = "Manager")]
     public async Task<ActionResult<Dish>> GetDishById(int id)
     {
@@ -47,7 +41,7 @@ public class DishController: ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("get-all-dishes")]
     [Authorize(Roles = "Manager")]
     public async Task<ActionResult<List<Dish>>> GetAllDishes()
     {
@@ -66,7 +60,7 @@ public class DishController: ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("add-dish")]
     [Authorize(Roles = "Manager")]
     public async Task<ActionResult<string>> CreateDish(Dish dish)
     {
@@ -94,7 +88,7 @@ public class DishController: ControllerBase
         }
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("update-dish-quantity")]
     [Authorize(Roles = "Manager")]
     public async Task<ActionResult<string>> UpdateDish(int id, int quantity)
     {
@@ -122,7 +116,7 @@ public class DishController: ControllerBase
         }
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("reduce-dish-quantity")]
     [Authorize(Roles = "Manager")]
     public async Task<ActionResult<string>> DeleteDish(int id, int quantity)
     {

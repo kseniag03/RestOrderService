@@ -26,7 +26,7 @@ public class DishService: IDishRepository
 
     public async Task AddNewDish(Dish dish)
     {
-        _database.Dishes.Add(dish);
+        await _database.Dishes.AddAsync(dish);
         await _database.SaveChangesAsync();
     }
     
